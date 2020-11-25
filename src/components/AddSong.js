@@ -38,7 +38,7 @@ function AddSong() {
             >
                 <DialogTitle>Edit Song</DialogTitle>
                 <DialogContent>
-                    <img src="https://i1.sdncdn.com/artworks-000670470790-ej1gvb-t500x500.jpg" 
+                    <img src="http://i3.ytimg.com/vi/NK8dcRiIq8s/hqdefault.jpg" 
                     alt="Song thumbnail"
                     className={classes.thumbnail}
                     />

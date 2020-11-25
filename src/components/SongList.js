@@ -69,7 +69,7 @@ function Song({ song }) {
                                 <PlayArrow />
                             </IconButton>
                             <IconButton size="small" color="secondary">
-                                <Save />
+                                <Save color="secondary"/>
                             </IconButton>
                         </CardActions>
                     </div>
