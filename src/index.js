@@ -2,9 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { CssBaseline, MuiThemeProvider } from '@material-ui/core';
-import { ApolloProvider } from 'apollo/react-hooks';
+import { ApolloProvider } from '@apollo/client';
 import theme from './theme';
-import client from './graphql/client';
+import createApolloClient from './graphql/client';
+
+const client = createApolloClient();
 
 ReactDOM.render(
     <ApolloProvider client={client}>

@@ -1,7 +1,12 @@
-import ApolloClient from 'apollo-boost';
+import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
 
-cpnst client = new ApolloClient({
-    url: 'https://helpful-hornet-97.hasura.app/v1/graphql'
-})
+ const createApolloClient = (authToken) => {
+  return new ApolloClient({
+    link: new HttpLink({
+      uri: 'https://helpful-hornet-97.hasura.app/v1/graphql',
+    }),
+    cache: new InMemoryCache(),
+  });
+ };
 
-export default client;
+ export default createApolloClient;

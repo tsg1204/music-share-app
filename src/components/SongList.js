@@ -2,15 +2,17 @@ import React from 'react';
 import { Card, CardContent, CardMedia, CircularProgress, Typography, CardActions, IconButton,
     makeStyles } from '@material-ui/core';
 import { PlayArrow, Save } from "@material-ui/icons";
+import { useQuery } from '@apollo/client';
+import { GET_SONGS } from '../graphql/queries';
 
 function SongList() {
-    let loading = false;
+    const { data, loading, error } = useQuery(GET_SONGS);
 
-    const song = {
-        title: "Luna",
-        artist: "Forhill",
-        thumbnail: "http://i3.ytimg.com/vi/NK8dcRiIq8s/hqdefault.jpg"
-    }
+    // const song = {
+    //     title: "Luna",
+    //     artist: "Forhill",
+    //     thumbnail: "http://i3.ytimg.com/vi/NK8dcRiIq8s/hqdefault.jpg"
+    // }
     if (loading) {
         return (
             <div style={{
@@ -23,8 +25,10 @@ function SongList() {
             </div>
         )
     }
-    return <div>{Array.from({ length: 10}, () => song).map((song, i) => (
-        <Song key={i} song={song} />
+    if (error) return <div>Error fetching songs</div>
+
+    return <div>{data.songs.map((song) => (
+        <Song key={song.id} song={song} />
     ))}</div>
 }
 
