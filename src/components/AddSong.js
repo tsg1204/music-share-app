@@ -29,8 +29,8 @@ const useStyles = makeStyles(theme => ({
 const DEFAULT_SONG = {
     duration: 0, 
     title: '', 
-    artist: "author", 
-    thumbnail: ''
+    artist: '', 
+    thumbnail: '',
 }
 
 function AddSong() {
@@ -71,10 +71,11 @@ function AddSong() {
     }
 
     async function handleAddSong() {
+        console.log('Song object:', song);
         try {
             const { url, thumbnail, duration, title, artist } = song;
             await addSong({
-                variable: {
+                variables: {
                     url: url.length > 0 ? url : null,
                     thumbnail: thumbnail.length > 0 ? thumbnail : null,
                     duration: duration > 0 ? duration : null,
