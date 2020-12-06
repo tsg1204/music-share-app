@@ -1,12 +1,21 @@
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
+import { WebSocketLink } from "apollo-link-ws";
+import { SubscriptionClient } from "subscriptions-transport-ws";
 
  const createApolloClient = (authToken) => {
   return new ApolloClient({
-    link: new HttpLink({
-      uri: 'https://helpful-hornet-97.hasura.app/v1/graphql',
+    link: new WebSocketLink({
+      uri: 'wss://helpful-hornet-97.hasura.app/v1/graphql',
+      options: {
+        reconnect: true
+      }
     }),
     cache: new InMemoryCache(),
   });
  };
 
  export default createApolloClient;
+
+//  link: new HttpLink({
+//   uri: 'https://helpful-hornet-97.hasura.app/v1/graphql',
+// }),

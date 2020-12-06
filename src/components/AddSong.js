@@ -71,7 +71,7 @@ function AddSong() {
     }
 
     async function handleAddSong() {
-        console.log('Song object:', song);
+        //console.log('Song object:', song);
         try {
             const { url, thumbnail, duration, title, artist } = song;
             await addSong({
