@@ -4,6 +4,8 @@ import { AddBoxOutlined, Link } from '@material-ui/icons';
 import ReactPlayer from 'react-player';
 import SoundcloudPlayer from 'react-player/lib/players/SoundCloud';
 import YouTubePlayer from 'react-player/lib/players/YouTube';
+import { useMutation } from '@apollo/client';
+import { ADD_SONG } from '../graphql/mutations';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -24,17 +26,20 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
+const DEFAULT_SONG = {
+    duration: 0, 
+    title: '', 
+    artist: "author", 
+    thumbnail: ''
+}
+
 function AddSong() {
     const classes = useStyles();
+    const [addSong, { error }] = useMutation(ADD_SONG);
     const [url, setUrl ] = React.useState('');
     const [playable, setPlayable] = React.useState(false);
     const [dialog, setDialog] = React.useState(false);
-    const [song, setSong] = React.useState({
-        duration: 0, 
-        title: '', 
-        artist: "author", 
-        thumbnail: ''
-    })
+    const [song, setSong] = React.useState(DEFAULT_SONG);
 
     React.useEffect(() => {
         const isPlayable = SoundcloudPlayer.canPlay(url) || YouTubePlayer.canPlay(url);
@@ -65,6 +70,27 @@ function AddSong() {
         setSong({ ...songData, url })
     }
 
+    async function handleAddSong() {
+        try {
+            const { url, thumbnail, duration, title, artist } = song;
+            await addSong({
+                variable: {
+                    url: url.length > 0 ? url : null,
+                    thumbnail: thumbnail.length > 0 ? thumbnail : null,
+                    duration: duration > 0 ? duration : null,
+                    title: title.length > 0 ? title : null,
+                    artist: artist.length > 0 ? artist : null,
+                }
+            })
+            handleCloseDialog();
+            setSong(DEFAULT_SONG);
+            setUrl('');
+
+        } catch (error) {
+            console.log("Error adding song", error);
+        }
+    }
+
     function getYoutubeInfo(player) {
         const duration = player.getDuration();
         const { title, video_id, author } = player.getVideoData();
@@ -92,6 +118,11 @@ function AddSong() {
         })
     }
 
+    function handleInputError(field) {
+        return error?.graphQLErrors[0]?.extensions?.path.includes(field);
+
+    }
+
     const { title, artist, thumbnail } = song;
 
     return (
@@ -114,6 +145,8 @@ function AddSong() {
                         name="title"
                         label="Title"
                         fullWidth
+                        error={handleInputError('title')}
+                        helperText={handleInputError('title') && 'Fill out field'}
                     />
                     <TextField 
                         onChange={handleChangeSong}
@@ -122,6 +155,8 @@ function AddSong() {
                         name="artist"
                         label="Artist"
                         fullWidth
+                        error={handleInputError('artist')}
+                        helperText={handleInputError('artist') && 'Fill out field'}
                     />
                     <TextField 
                         onChange={handleChangeSong}
@@ -130,11 +165,13 @@ function AddSong() {
                         name="thumbnail"
                         label="Thumbnail"
                         fullWidth
+                        error={handleInputError('thumbnail')}
+                        helperText={handleInputError('thumbnail') && 'Fill out field'}
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog} color="secondary">Cancel</Button>
-                    <Button variant="outlined" color="prymary">Add Song</Button>
+                    <Button onClick={handleAddSong} variant="outlined" color="prymary">Add Song</Button>
                 </DialogActions>
             </Dialog>
             <TextField
