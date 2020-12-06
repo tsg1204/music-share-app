@@ -37,10 +37,18 @@ function AddSong() {
     })
 
     React.useEffect(() => {
-        const isPlayable = SoundcloudPlayer.canPlay(url || YouTubePlayer.canPlay(url));
+        const isPlayable = SoundcloudPlayer.canPlay(url) || YouTubePlayer.canPlay(url);
 
         setPlayable(isPlayable);
     }, [url]);
+
+    function handleChangeSong(event) {
+        const { name, value } = event.target;
+        setSong(prevSong => ({
+            ...prevSong,
+            [name]: value
+        }))
+    }
 
     function handleCloseDialog() {
         setDialog(false);
@@ -100,6 +108,7 @@ function AddSong() {
                     className={classes.thumbnail}
                     />
                     <TextField 
+                        onChange={handleChangeSong}
                         value={title}
                         margin="dense"
                         name="title"
@@ -107,6 +116,7 @@ function AddSong() {
                         fullWidth
                     />
                     <TextField 
+                        onChange={handleChangeSong}
                         value={artist}
                         margin="dense"
                         name="artist"
@@ -114,6 +124,7 @@ function AddSong() {
                         fullWidth
                     />
                     <TextField 
+                        onChange={handleChangeSong}
                         value={thumbnail}
                         margin="dense"
                         name="thumbnail"
