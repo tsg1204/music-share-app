@@ -4,13 +4,28 @@ import AddSong from './components/AddSong';
 import SongList from './components/SongList';
 import SongPlayer from './components/SongPlayer';
 import { Grid, useMediaQuery, Hidden } from '@material-ui/core';
+import songReducer from './reducer';
+
+export const SongContext = React.createContext({
+  song: {
+    id: 'a81d8338-326f-4a68-a326-a5db4dcce8a1',
+    title: 'NØVMBR - Dark By Six (feat. Sørcery)',
+    artist: 'NØVMBR',
+    thumbnail: 'http://img.youtube.com/vi/TTJBevUIp0s/0.jpg',
+    url: 'https://www.youtube.com/watch?v=TTJBevUIp0s',
+    duration: 252
+  },
+  isPlaying: false
+})
 
 function App() {
+  const initialSongState = React.useContext(SongContext);
+  const [state, dispatch] = React.useReducer(songReducer, initialSongState);
   const greaterThanSm = useMediaQuery(theme  => theme.breakpoints.up('sm'));
   const greaterThanMd = useMediaQuery(theme  => theme.breakpoints.up('md'));
 
   return (
-    <>
+    <SongContext.Provider value={{ state, dispatch }}>
       {/*{ greaterThanSm && <Header />}*/}
       <Hidden only="xs">
         <Header />
@@ -37,7 +52,7 @@ function App() {
           <SongPlayer />
         </Grid>
       </Grid>
-    </>
+    </SongContext.Provider>
   )
 }
 
