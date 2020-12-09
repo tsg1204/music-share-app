@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
+import { ApolloClient, InMemoryCache, HttpLink, gql } from '@apollo/client';
 import { WebSocketLink } from "apollo-link-ws";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 
@@ -11,6 +11,17 @@ import { SubscriptionClient } from "subscriptions-transport-ws";
       }
     }),
     cache: new InMemoryCache(),
+    typeDefs: gql`
+      type Song {
+        id: uuid!
+        title: String!
+        artist: String!
+        thumbnail: String!
+        duration: Float!
+        url: String!
+      }
+
+    `
   });
  };
 
