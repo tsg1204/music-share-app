@@ -21,9 +21,31 @@ import { SubscriptionClient } from "subscriptions-transport-ws";
         url: String!
       }
 
+      input SongInput {
+        id: uuid!
+        title: String!
+        artist: String!
+        thumbnail: String!
+        duration: Float!
+        url: String!
+      }
+
+      type Query {
+        queue: [Song]!
+      }
+
+      type Mutation {
+        addOrRemoveFromQueu(input: SongInput!): [Song]!
+      }
     `
   });
  };
+
+ const data = {
+   queue: []
+ }
+
+ createApolloClient.writeData({ data });
 
  export default createApolloClient;
 
