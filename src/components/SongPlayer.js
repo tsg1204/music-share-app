@@ -51,7 +51,7 @@ function SongPlayer() {
         setPositionInQueue(songIndex);
     }, [data.queue, state.song.id]);
     
-      React.useEffect(() => {
+    React.useEffect(() => {
         const nextSong = data.queue[positionInQueue + 1];
         if (played >= 0.99 && nextSong) {
           setPlayed(0);
