@@ -63,10 +63,10 @@ const client = new ApolloClient({
   }
 });
 
-const hasQueue = Boolean(localStorage.getItem("queue"));
+const hasQueue = Boolean(localStorage.getItem('queue'));
 
 const data = {
-  queue: hasQueue ? JSON.parse(localStorage.getItem("queue")) : []
+  queue: hasQueue ? JSON.parse(localStorage.getItem('queue')) : []
 };
 //  link: new HttpLink({
 //   uri: 'https://helpful-hornet-97.hasura.app/v1/graphql',
