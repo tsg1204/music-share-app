@@ -4,9 +4,7 @@ import App from './App';
 import { CssBaseline, MuiThemeProvider } from '@material-ui/core';
 import { ApolloProvider } from '@apollo/client';
 import theme from './theme';
-import createApolloClient from './graphql/client';
-
-const client = createApolloClient();
+import client from './graphql/client';
 
 ReactDOM.render(
     <ApolloProvider client={client}>

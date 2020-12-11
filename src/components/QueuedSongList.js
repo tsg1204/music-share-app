@@ -2,25 +2,27 @@ import { Typography } from '@material-ui/core';
 import React from 'react';
 import { Avatar, IconButton, makeStyles, useMediaQuery } from '@material-ui/core';
 import { Delete } from "@material-ui/icons";
+import { useMutation } from '@apollo/client';
 
-function QueuedSongList() {
+function QueuedSongList({ queue }) {
+    console.log({ queue })
     const greaterThanMd = useMediaQuery(theme  => theme.breakpoints.up('md'));
 
-    const song = {
-        title: "Luna",
-        artist: "Forhill",
-        thumbnail: "http://i3.ytimg.com/vi/NK8dcRiIq8s/hqdefault.jpg"
-    }
+    // const song = {
+    //     title: "Luna",
+    //     artist: "Forhill",
+    //     thumbnail: "http://i3.ytimg.com/vi/NK8dcRiIq8s/hqdefault.jpg"
+    // }
 
     return greaterThanMd && (
         <div style={{ margin: '10px 0' }}>
             <Typography color="textSecondary" variant="button">
-                QUEUE (5)
+                QUEUE ({queue.length})
             </Typography>
-            {Array.from({ length: 5}, () => song).map((song, i) => (
-                <QueuedSong key={i} song={song} />
+            {queue.map((song) => (
+                <QueuedSong key={song.id} song={song} />
             ))}
-        </div>
+        </div> 
     )
 }
 

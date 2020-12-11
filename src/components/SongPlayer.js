@@ -82,7 +82,7 @@ function SongPlayer() {
                     className={classes.thumbnail}
                     image={state.song.thumbnail} />
             </Card>
-            <QueuedSongList />
+            <QueuedSongList queue={data.queue} />
         </>
     )
 }

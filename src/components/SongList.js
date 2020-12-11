@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardMedia, CircularProgress, Typography, CardActions, IconButton,
     makeStyles } from '@material-ui/core';
 import { PlayArrow, Save, Pause } from "@material-ui/icons";
-import { useQuery, useSubscription } from '@apollo/client';
+import { useSubscription } from '@apollo/client';
 import { GET_SONGS } from '../graphql/subscriptions';
 import { SongContext } from '../App';
 
