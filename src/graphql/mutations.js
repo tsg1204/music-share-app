@@ -6,3 +6,9 @@ export const ADD_SONG = gql`
         affected_rows
         }
   }`
+
+export const ADD_OR_REMOVE_FROM_QUEUE = gql`
+  mutation addOrRemoveFromQueue($input: SongInput!) {
+    addOrRemoveFromQueue(input: $input) @client
+  }
+`;

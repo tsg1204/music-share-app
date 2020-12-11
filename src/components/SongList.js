@@ -2,9 +2,10 @@ import React from 'react';
 import { Card, CardContent, CardMedia, CircularProgress, Typography, CardActions, IconButton,
     makeStyles } from '@material-ui/core';
 import { PlayArrow, Save, Pause } from "@material-ui/icons";
-import { useSubscription } from '@apollo/client';
+import { useSubscription, useMutation } from '@apollo/client';
 import { GET_SONGS } from '../graphql/subscriptions';
 import { SongContext } from '../App';
+import { ADD_OR_REMOVE_FROM_QUEUE } from "../graphql/mutations";
 
 function SongList() {
     const { data, loading, error } = useSubscription(GET_SONGS);
@@ -51,6 +52,7 @@ const useStyles = makeStyles(theme => ({
 function Song({ song }) {
     const { id } = song;
     const classes = useStyles();
+    const [addOrRemoveFromQueue] = useMutation(ADD_OR_REMOVE_FROM_QUEUE);
     const { state, dispatch } = React.useContext(SongContext);
     const [currentSongPlaying, setCurrentSongPlaying] = React.useState(false);
     const { thumbnail, title, artist } = song;
@@ -63,6 +65,12 @@ function Song({ song }) {
     function handleTogglePlay() {
         dispatch({ type: "SET_SONG", payload: { song }});
         dispatch(state.isPlaying ? {type: "PAUSE_SONG"} : { type: "PLAY_SONG" });
+    }
+
+    function handleAddOrRemoveFromQueue() {
+        addOrRemoveFromQueue({
+            variables: { input: { ...song, __typename: 'Song'}}
+        });
     }
 
     return <Card className={classes.container}>
@@ -81,7 +89,7 @@ function Song({ song }) {
                             <IconButton onClick={handleTogglePlay} size="small" color="primary">
                                 {currentSongPlaying ? <Pause /> : <PlayArrow />}
                             </IconButton>
-                            <IconButton size="small" color="secondary">
+                            <IconButton onClick={handleAddOrRemoveFromQueue} size="small" color="secondary">
                                 <Save color="secondary"/>
                             </IconButton>
                         </CardActions>
