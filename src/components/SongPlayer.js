@@ -5,8 +5,8 @@ import { Card, CardContent, Slider, CardMedia, Typography, IconButton,
 import { SkipPrevious, PlayArrow, SkipNext, Pause } from "@material-ui/icons";
 import QueuedSongList from './QueuedSongList';
 import { SongContext } from '../App';
-import { GET_SONGS } from '../graphql/subscriptions';
 import { GET_QUEUED_SONGS } from '../graphql/queries';
+import ReactPlayer from 'react-player';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -78,6 +78,7 @@ function SongPlayer() {
                         step={0.01}
                     />
                 </div>
+                <ReactPlayer url={state.song.url} playing={state.isPlaying} hidden />
                 <CardMedia 
                     className={classes.thumbnail}
                     image={state.song.thumbnail} />
